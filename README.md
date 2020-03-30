@@ -1,2 +1,2 @@
 # pypong
-a simple pong game in python
+a simple pong game in python, using pygame
