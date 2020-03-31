@@ -3,6 +3,8 @@ import pygame, sys, random, os
 # General setup
 pygame.init()
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("arial", 72)
+
 
 
 ball_speed_x = 7
@@ -11,6 +13,15 @@ player_speed = 0
 opponent_speed = 7
 
 _sound_library = {}
+
+player_score = 0
+opponent_score = 0
+
+def render_score():
+    global player_score, opponent_score, text
+    text = font.render(str(opponent_score) + " - " + str(player_score) , True, (0, 128, 0))
+    
+
 def play_sound(path):
   global _sound_library
   sound = _sound_library.get(path)
@@ -21,20 +32,24 @@ def play_sound(path):
   sound.play()
 
 def ball_animation():
-    global ball_speed_x, ball_speed_y, ball_color, ball_color_delay
+    global ball_speed_x, ball_speed_y, ball_color, ball_color_delay, player_score, opponent_score
     ball.x += ball_speed_x
     ball.y += ball_speed_y
 
     if ball.top <=0 or ball.bottom >=screen_height:
         ball_speed_y *= -1
-    if ball.left <= 0 or ball.right >= screen_width:
+    if ball.left <= 0:
+        player_score += 1
         ball_restart()
-
+    if ball.right >= screen_width:
+        opponent_score += 1
+        ball_restart()    
     if ball.colliderect(player) or ball.colliderect(opponent):
+        play_sound('blipf-4.wav')
         ball_speed_x *= -1
         ball_color=blue_ball
         ball_color_delay=0
-        play_sound('blipf-4.wav')
+        
 
 def player_animation():
     player.y += player_speed
@@ -82,6 +97,7 @@ light_grey = (200,200,200)
 blue_ball = (0,0,255) #yeah i know... :)
 ball_color = light_grey
 ball_color_delay=0
+blip_delay=0
 
 
 keeprunning = True
@@ -106,6 +122,8 @@ while keeprunning:
     ball_animation()
     player_animation()
     opponent_animation()
+    render_score()
+
 
     # Visuals
     screen.fill(bg_color)
@@ -113,6 +131,7 @@ while keeprunning:
     pygame.draw.rect(screen,light_grey, opponent)
     pygame.draw.ellipse(screen, ball_color, ball)
     pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2,screen_height))
+    screen.blit(text, (screen_width / 2 - text.get_width() // 2, screen_height / 2 - text.get_height() // 2))
 
     # Updating the window
     pygame.display.flip()
@@ -122,6 +141,12 @@ while keeprunning:
         ball_color_delay += 1
         if ball_color_delay == 10:
             ball_color = light_grey
+
+    # a blip sound every x something
+    blip_delay +=1
+    if blip_delay >=60:
+        play_sound('blipf-5.wav')
+        blip_delay=0
     clock.tick(60)
 
 # when the while loop ends, we will quit the game.
