@@ -1,4 +1,4 @@
-import pygame, sys, random, os
+import pygame, sys, random
 
 # General setup
 pygame.init()
@@ -10,15 +10,6 @@ ball_speed_y = 7
 player_speed = 0
 opponent_speed = 7
 
-_image_library = {}
-def get_image(path):
-        global _image_library
-        image = _image_library.get(path)
-        if image == None:
-                canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-                image = pygame.image.load(canonicalized_path)
-                _image_library[path] = image
-        return image
 
 
 def ball_animation():
@@ -112,7 +103,6 @@ while keeprunning:
     pygame.draw.rect(screen,light_grey, player)
     pygame.draw.rect(screen,light_grey, opponent)
     pygame.draw.ellipse(screen, ball_color, ball)
-    screen.blit(get_image('ball.png'), (20, 20))
     pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2,screen_height))
 
     # Updating the window
