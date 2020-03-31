@@ -10,7 +10,15 @@ ball_speed_y = 7
 player_speed = 0
 opponent_speed = 7
 
-
+_sound_library = {}
+def play_sound(path):
+  global _sound_library
+  sound = _sound_library.get(path)
+  if sound == None:
+    canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
+    sound = pygame.mixer.Sound(canonicalized_path)
+    _sound_library[path] = sound
+  sound.play()
 
 def ball_animation():
     global ball_speed_x, ball_speed_y, ball_color, ball_color_delay
@@ -26,6 +34,7 @@ def ball_animation():
         ball_speed_x *= -1
         ball_color=blue_ball
         ball_color_delay=0
+        play_sound('blipf-4.wav')
 
 def player_animation():
     player.y += player_speed
