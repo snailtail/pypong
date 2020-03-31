@@ -84,7 +84,7 @@ def exitgame():
 screen_width = 1280
 screen_height = 960
 screen = pygame.display.set_mode((screen_width,screen_height))
-pygame.display.set_caption('Pong')
+pygame.display.set_caption('pyPong')
 
 
 # Game rectangles
