@@ -36,6 +36,11 @@ def ball_restart():
     ball_speed_y *= random.choice((1,-1))
     ball_speed_x *= random.choice((1,-1))
 
+def exitgame():
+    global keeprunning
+    keeprunning=False
+    
+
 # General setup
 pygame.init()
 clock = pygame.time.Clock()
@@ -59,14 +64,15 @@ ball_speed_x = 7
 ball_speed_y = 7
 player_speed = 0
 opponent_speed = 7
-
-while True:
+keeprunning = True
+while keeprunning:
     #Handling input
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            exitgame()
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                exitgame()
             if event.key == pygame.K_DOWN:
                 player_speed +=7
             if event.key == pygame.K_UP:
@@ -92,3 +98,5 @@ while True:
     pygame.display.flip()
 
     clock.tick(60)
+
+pygame.quit()
