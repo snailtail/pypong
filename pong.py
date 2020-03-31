@@ -5,8 +5,6 @@ pygame.init()
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 72)
 
-
-
 ball_speed_x = 7
 ball_speed_y = 7
 player_speed = 0
@@ -17,6 +15,7 @@ _sound_library = {}
 player_score = 0
 opponent_score = 0
 
+# Define some functions
 def render_score():
     global player_score, opponent_score, text
     text = font.render(str(opponent_score) + " - " + str(player_score) , True, (0, 128, 0))
@@ -87,7 +86,7 @@ screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption('pyPong')
 
 
-# Game rectangles
+# Create some game rectangles
 ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30)
 player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
 opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
@@ -96,6 +95,9 @@ bg_color = pygame.Color('grey12')
 light_grey = (200,200,200)
 blue_ball = (0,0,255) #yeah i know... :)
 ball_color = light_grey
+
+# delay is used in the loop, for changing ball color temporarily on collision.
+# and for playing the repeating blip sound / background noise.
 ball_color_delay=0
 blip_delay=0
 
